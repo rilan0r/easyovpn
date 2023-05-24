@@ -41,7 +41,6 @@ explicit-exit-notify 1
 
 var1=$(hostname -I)
 var2=$(cat /etc/openvpn/ca.crt)
-#var3=$(cat /etc/openvpn/ta.key)
 echo "client
 dev tun
 proto udp
