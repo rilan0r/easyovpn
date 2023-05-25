@@ -18,7 +18,7 @@ cp ./pki/issued/server.crt /etc/openvpn/server.crt
 cp ./pki/private/server.key /etc/openvpn/server.key
 sysctl -w net.ipv4.ip_forward=1
 
-echo "port 1194
+echo "port 11940
 dev tun
 ca /etc/openvpn/ca.crt
 cert /etc/openvpn/server.crt
@@ -46,13 +46,13 @@ var4=$(cat /etc/openvpn/ta.key)
 echo "client
 dev tun
 proto udp
-remote $var2 1194
+remote $var2 11940
 resolv-retry infinite
 nobind
 persist-key
 persist-tun
 remote-cert-tls server
-cipher AES-256-CBC
+cipher AES-256-GCM
 verb 3
 
 <ca>
