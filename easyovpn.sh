@@ -33,11 +33,13 @@ cipher AES-256-GCM
 persist-key
 persist-tun
 status /var/log/openvpn/openvpn-status.log
-log /var/log/openvpn/openvpn.log
+log-append /var/log/openvpn/openvpn.log
 verb 4
 mute 10
 explicit-exit-notify 1
---push \"redirect-gateway\"" >> /etc/openvpn/server.conf
+--push \"redirect-gateway\"
+user nobody
+group nobody" >> /etc/openvpn/server.conf
 
 var1=$(ip route | grep '^default' | awk '{print $5}')
 var2=$(ip addr | grep $var1 | grep inet | awk '{print $2}' | grep -E -o "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)")
