@@ -39,13 +39,14 @@ mute 10
 explicit-exit-notify 1
 --push \"redirect-gateway\"" >> /etc/openvpn/server.conf
 
-var1=$(hostname -I)
-var2=$(cat /etc/openvpn/ca.crt)
-var3=$(cat /etc/openvpn/ta.key)
+var1=$(route | grep '^default' | grep -o '[^ ]*$')
+var2=$(ip addr | grep $var4 | grep inet | awk '{print $2}' | grep -E -o "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)")
+var3=$(cat /etc/openvpn/ca.crt)
+var4=$(cat /etc/openvpn/ta.key)
 echo "client
 dev tun
 proto udp
-remote $var1 1194
+remote $var2 1194
 resolv-retry infinite
 nobind
 persist-key
@@ -55,15 +56,14 @@ cipher AES-256-CBC
 verb 3
 
 <ca>
-$var2
+$var3
 </ca>
 key-direction 1
 <tls-auth>
-$var3
+$var4
 </tls-auth>" >> /etc/openvpn/example.ovpn
 
 systemctl start openvpn@server
 mkdir /etc/openvpn/clients
 
-var4=$(route | grep '^default' | grep -o '[^ ]*$')
-iptables -t nat -A POSTROUTING -o $var4 -j MASQUERADE
+iptables -t nat -A POSTROUTING -o $var1 -j MASQUERADE
