@@ -1,5 +1,5 @@
 apt update
-apt install openvpn easy-rsa -y
+apt install openvpn easy-rsa net-tools -y
 mkdir /etc/openvpn/easy-rsa
 cp -R /usr/share/easy-rsa /etc/openvpn
 cd /etc/openvpn/easy-rsa/
