@@ -65,5 +65,5 @@ $var3
 systemctl start openvpn@server
 mkdir /etc/openvpn/clients
 
-var4=$(ip -br -4 a sh | grep $var1 | awk '{print $1}')
+var4=$(route | grep '^default' | grep -o '[^ ]*$')
 iptables -t nat -A POSTROUTING -o $var4 -j MASQUERADE
