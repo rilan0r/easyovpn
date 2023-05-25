@@ -28,7 +28,7 @@ topology subnet
 server 10.8.0.0 255.255.255.0
 ifconfig-pool-persist /var/log/openvpn/ipp.txt
 keepalive 10 120
-#tls-auth /etc/openvpn/ta.key 0
+tls-auth /etc/openvpn/ta.key 0
 cipher AES-256-GCM
 persist-key
 persist-tun
@@ -41,6 +41,7 @@ explicit-exit-notify 1
 
 var1=$(hostname -I)
 var2=$(cat /etc/openvpn/ca.crt)
+var3=$(cat /etc/openvpn/ta.key)
 echo "client
 dev tun
 proto udp
@@ -55,10 +56,14 @@ verb 3
 
 <ca>
 $var2
-</ca>" >> /etc/openvpn/example.ovpn
+</ca>
+key-direction 1
+<tls-auth>
+$var3
+</tls-auth>" >> /etc/openvpn/example.ovpn
 
 systemctl start openvpn@server
 mkdir /etc/openvpn/clients
 
-var3=$(ip -br -4 a sh | grep $var1 | awk '{print $1}')
-iptables -t nat -A POSTROUTING -o $var3 -j MASQUERADE
+var4=$(ip -br -4 a sh | grep $var1 | awk '{print $1}')
+iptables -t nat -A POSTROUTING -o $var4 -j MASQUERADE
