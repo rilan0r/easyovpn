@@ -7,7 +7,7 @@ With this short scripts you can easily deploy OpenVPN server, configure it, and 
 ```
 git clone git@github.com:rilan0r/easyovpn.git
 cd easyovpn/
-sudo bash create_server.sh
+sudo bash easyovpn.sh
 ```
 
 For this script you'll need to create master password for you server's CA, and type it several times. After completing script it would install OpenVPN and make all required preparations.
